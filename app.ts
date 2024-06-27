@@ -1,24 +1,17 @@
-const add = (
-  num1: number,
-  num2: number,
-  showResult: boolean,
-  phrase: string
-) => {
-  // if (typeof number1 !== 'number' || typeof number2 !== 'number') {
-  //   throw new Error('Incorrect input!!')
-  // }
-  const result = number1 + number2;
+// unknown vs any
+// never
 
-  if (showResult) {
-    console.log(phrase + result);
-  } else {
-    return result;
-  }
-};
+let userInput: unknown;
+let userName: string;
 
-const number1 = 5;
-const number2 = 10;
-const printResult = true;
-const resultPharse = 'Result is : ';
+userInput = 5;
+userInput = 'hi';
 
-const addResult = add(number1, number2, printResult, resultPharse);
+typeof userInput === 'string' ? (userName = userInput) : null;
+
+function generateError(message: string, errorCode: number): never {
+  throw { message, errorCode };
+}
+
+const result = generateError('ERROR!!', 500);
+console.log(result);

@@ -13,3 +13,11 @@ Udemy Course 'Typecript with React + NodeJS'
 ---
 
 ### Compile
+
+TypeScript Compiler
+   watch mode / tsc init / exclude, include
+TsConfig
+   target / module / lib / allowJs, CheckJs
+   /sourceMap(debug) / outFile, outDir, rootDir /
+   /removeComments / noEmit / noEmitonError / strict / !
+   / additionalCheck

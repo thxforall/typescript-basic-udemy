@@ -10,6 +10,10 @@
     "strictPropertyInitialization": true, // 클래스 프로퍼티 초기화에 대한 엄격한 체크를 활성화합니다.
     "noImplicitThis": true, // this의 암시적 any 타입 사용을 금지합니다.
     "alwaysStrict": true, // 각 소스 파일에서 엄격 모드로 파싱하도록 강제합니다.
-    "esModuleInterop": true // ES 모듈 인터롭을 활성화합니다.
+    "esModuleInterop": true, // ES 모듈 인터롭을 활성화합니다.
+    
+    "lib": [
+      "DOM","ES6","DOM.Iterable","ScriptHost"
+    ]
   }
 }

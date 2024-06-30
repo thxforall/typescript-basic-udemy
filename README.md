@@ -14,10 +14,18 @@ Udemy Course 'Typecript with React + NodeJS'
 
 ### Compile
 
-TypeScript Compiler
-   watch mode / tsc init / exclude, include
-TsConfig
-   target / module / lib / allowJs, CheckJs
-   /sourceMap(debug) / outFile, outDir, rootDir /
-   /removeComments / noEmit / noEmitonError / strict / !
-   / additionalCheck
+1. [Compile](marp/4.compile.md)
+
+---
+
+### TypeScript & Modern JavaScript
+
+1. [Modern Js](marp/5.modernJS.md)
+
+---
+
+### Classes & Interface
+
+1. [Classes Basic](marp/6.clases.md)
+2. [Classes Inheritance](marp/7.inheritance.md)
+3. [Interfaec](marp/8.interface.md)

@@ -28,4 +28,14 @@ Udemy Course 'Typecript with React + NodeJS'
 
 1. [Classes Basic](marp/6.clases.md)
 2. [Classes Inheritance](marp/7.inheritance.md)
-3. [Interfaec](marp/8.interface.md)
+3. [Interface](marp/8.interface.md)
+
+--
+
+### Advanced Typing Concepts
+
+1. Intersection Types
+2. Type Guard
+3. Discriminated Unions
+4. Type casting
+5. Function Overloads

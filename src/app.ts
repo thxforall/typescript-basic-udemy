@@ -1,39 +1,74 @@
-// type AddFn = (a: number, b: number) => number;
-interface AddFn {
-  (a: number, b: number): number;
-}
-
-let add: AddFn;
-
-add = (n1: number, n2: number) => {
-  return n1 + n2;
+type Admin = {
+  name: string;
+  privileges: string[]; //권한
 };
 
-interface Named {
-  readonly name?: string;
-  outputName?: string;
-}
+type Employee = {
+  name: string;
+  startDate: Date;
+};
 
-interface Greetable extends Named {
-  greet(phrase: string): void;
-}
+type ElevatedEmployee = Admin & Employee;
 
-class Person implements Greetable {
-  name?: string;
-  age = 30;
+const e1: ElevatedEmployee = {
+  name: 'kiyori',
+  privileges: ['create-server'],
+  startDate: new Date(),
+};
 
-  constructor(n?: string) {
-    if (n) {
-      this.name = n;
-    }
-    throw new Error('No Name');
+type Comninable = string | number;
+type Numeric = number | boolean;
+
+type Universal = Comninable & Numeric;
+
+const add = (a: Comninable, b: Comninable) => {
+  if (typeof a === 'string' || typeof b === 'string') {
+    return a.toString() + b.toString();
   }
-  greet(phrase: string) {
-    console.log(phrase + ` ` + this.name);
+  return a + b;
+};
+
+type UnknownEmployee = Employee | Admin;
+
+const printEmployeeInfo = (emp: UnknownEmployee) => {
+  console.log('Name: ' + emp.name);
+  if ('privileges' in emp) {
+    console.log('Privileges: ' + emp.privileges);
+  }
+  if ('startDate' in emp) {
+    console.log('StartDate: ' + emp.startDate);
+  }
+};
+
+printEmployeeInfo(e1);
+printEmployeeInfo({ name: 'kiyori', startDate: new Date() });
+
+class Car {
+  drive() {
+    console.log('Driving...');
   }
 }
 
-let user1: Greetable;
-user1 = new Person('');
-user1.greet(`Hi there - I'm`);
-console.log(user1);
+class Truck {
+  drive() {
+    console.log('Driving...');
+  }
+
+  loadCargo(amount: number) {
+    console.log(amount);
+  }
+}
+
+type Vehicle = Car | Truck;
+const v1 = new Car();
+const v2 = new Truck();
+
+const useVehicle = (vehicle: Vehicle) => {
+  vehicle.drive();
+  if (vehicle instanceof Truck) {
+    vehicle.loadCargo(100);
+  }
+}; 
+
+useVehicle(v1);
+useVehicle(v2);

@@ -34,8 +34,16 @@ Udemy Course 'Typecript with React + NodeJS'
 
 ### Advanced Typing Concepts
 
-1. Intersection Types
-2. Type Guard
-3. Discriminated Unions
-4. Type casting
-5. Function Overloads
+- [Advanced Typing](marp/9.advancedTyping.md)
+
+### Generics
+
+- [Generics](marp/10.generics.md)
+
+1. Generic Function & Classes
+2. Constraints
+   2-1. Typeof Constraints
+3. Generic Utility type
+   3-1. Partial
+   3-2. Readonly
+4. Generic Vs Union

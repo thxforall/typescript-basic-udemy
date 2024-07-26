@@ -40,10 +40,20 @@ Udemy Course 'Typecript with React + NodeJS'
 
 - [Generics](marp/10.generics.md)
 
-1. Generic Function & Classes
-2. Constraints
-   2-1. Typeof Constraints
-3. Generic Utility type
-   3-1. Partial
-   3-2. Readonly
-4. Generic Vs Union
+### Decorators
+
+1. class decorator
+   1-1.decorator factory
+   1-2. meta programing (ex. Angular)
+   1-3. multiple decorator order (bottom-up)
+2. usefull decorator
+   2-1. property decorator
+   2-2. accesor decorator
+   2-3. method decorator
+   2-4. parameter decorator
+3. decorator usecase
+   3-1. Returning and converting classes from class decorators
+   3-2. etc decorator return type
+   3-3. ex. autobind decorator
+4. decorator validation
+ex. ts class validator, Angular, nestJs

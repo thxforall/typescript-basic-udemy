@@ -1,102 +1,201 @@
-// const names: Array<string> = ['hi', '5', 'true'];
-
-// const promise: Promise<number> = new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(10);
-//   }, 2000);
-// });
-
-// promise.then((data) => {
-//   // data.split(' ');
-// });
-
-function merge<T extends object, U extends object>(objA: T, objB: U): T & U {
-  return { ...objA, ...objB };
-}
-
-const mergeObj = merge({ name: 'Max' }, { age: 30 });
-// const mergeObj2 = merge({ name: 'Max', hobbies: ['Sports'] }, 30);
-// console.log(mergeObj2);
-
-interface ILengthy {
-  length: number;
-}
-
-const countAndPrint = <T extends ILengthy>(element: T): [T, string] => {
-  let descriptionText = 'Got no value.';
-  if (element.length === 1) {
-    descriptionText = 'Got 1 elements.';
-  } else if (element.length > 1) {
-    descriptionText = 'Got ' + element.length + ' elements.';
-  }
-  return [element, descriptionText];
+const Logger = (logString: string) => {
+  console.log('LOGGER FACTORY');
+  return (constructor: Function) => {
+    console.log(logString);
+    console.log(constructor);
+  };
 };
 
-console.log(countAndPrint('Hi there!'));
-console.log(countAndPrint([]));
-console.log(countAndPrint(['Sports', 'Cooking']));
+const WithTemplate = (template: string, hookId: string) => {
+  console.log('TEMPLATE FACTORY');
+  return <T extends { new (...args: any[]): { name: string } }>(
+    originalConstructor: T
+  ) => {
+    return class extends originalConstructor {
+      constructor(...args: any[]) {
+        super(...args);
+        console.log('Rendering template');
+        const hookEl = document.getElementById(hookId);
+        if (hookEl) {
+          hookEl.innerHTML = template;
+          hookEl.querySelector('h1')!.textContent = this.name;
+        }
+      }
+    };
+  };
+};
 
-const extraAndConvert = <T extends object, U extends keyof T>(
-  obj: T,
-  key: U
+@Logger('LOGGING - PERSON')
+@WithTemplate('<h1>My Person Object</h1>', 'app')
+class Person {
+  name = 'Kiyori';
+
+  constructor() {
+    console.log('Creating person object...');
+  }
+}
+
+const Log = (target: any, propertyName: string | Symbol) => {
+  console.log('Property decorator!');
+  console.log(target, propertyName);
+};
+
+const Log2 = (target: any, name: string, descriptor: PropertyDescriptor) => {
+  console.log('Accessor decorator!');
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
+};
+
+const Log3 = (
+  target: any,
+  name: string | Symbol,
+  descriptor: PropertyDescriptor
 ) => {
-  return `Value: ` + obj[key];
+  console.log('Method decorator!');
+  console.log(target);
+  console.log(name);
+  console.log(descriptor);
 };
 
-console.log(extraAndConvert({ name: 'kiyori' }, 'name'));
+const Log4 = (target: any, name: string, position: number) => {
+  console.log('Parameter decorator!');
+  console.log(target);
+  console.log(name);
+  console.log(position);
+};
 
-class DataStorage<T extends string | number | boolean> {
-  private data: T[] = [];
-
-  addItem(item: T) {
-    this.data.push(item);
-  }
-
-  removeItem(item: T) {
-    if (this.data.indexOf(item) === -1) {
-      return;
-    }
-    this.data.splice(this.data.indexOf(item), 1);
-  }
-
-  getItems() {
-    return [...this.data];
-  }
-}
-
-const textStorage = new DataStorage<string>();
-textStorage.addItem('hi');
-textStorage.addItem('kiyori');
-textStorage.removeItem('hi');
-console.log(textStorage.getItems());
-const numberStorage = new DataStorage<number>();
-
-// const objStoarge = new DataStorage<object>();
-// const maxObj = { name: 'Max' };
-// const kiyoriObj = { name: 'Kiyori' };
-// objStoarge.addItem(kiyoriObj);
-// objStoarge.addItem(maxObj);
-// objStoarge.removeItem(maxObj);
-// console.log(objStoarge.getItems());
-
-interface CourseGoal {
+class Product {
+  @Log
   title: string;
-  description: string;
-  completeUntil: Date;
+  private _price: number;
+
+  @Log2
+  set price(val: number) {
+    if (val > 0) {
+      this._price = val;
+    } else {
+      throw new Error('Invalid price - should be positive!');
+    }
+  }
+
+  constructor(t: string, p: number) {
+    this.title = t;
+    this._price = p;
+  }
+
+  @Log3
+  getPriceWithTax(@Log4 tax: number) {
+    return this._price * (1 + tax);
+  }
 }
 
-const createCourseGoal = (
-  title: string,
-  description: string,
-  completeUntil: Date
-): CourseGoal => {
-  let courseGoal: Partial<CourseGoal> = {};
-  courseGoal.title = title;
-  courseGoal.description = description;
-  courseGoal.completeUntil = completeUntil;
-  return courseGoal as CourseGoal;
-};
+const p1 = new Person();
+const p2 = new Product('Book', 19.99);
 
-const names: Readonly<string[]> = ['Kiyori', 'Max'];
-names.push('Manu');
-names.pop();
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjDescriptor;
+}
+
+class Printer {
+  message = 'This works!';
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+
+const button = document.querySelector('button')!;
+button.addEventListener('click', p.showMessage);
+
+interface IValidatorConfig {
+  [property: string]: {
+    [ValidatableProp: string]: string[];
+  };
+}
+
+const registeredValidators: IValidatorConfig = {};
+
+function Required(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: [
+      ...(registeredValidators[target.constructor.name]?.[propName] ?? []),
+      'required',
+    ],
+  };
+}
+
+function PositiveNumber(target: any, propName: string) {
+  registeredValidators[target.constructor.name] = {
+    ...registeredValidators[target.constructor.name],
+    [propName]: [
+      ...(registeredValidators[target.constructor.name]?.[propName] ?? []),
+      'positive',
+    ],
+  };
+}
+
+function Validate(obj: any) {
+  const objValidatorConfig = registerValidators[obj.constructor.name];
+  if (!objValidatorConfig) {
+    return true;
+  }
+  let isValid = true;
+  for (const prop in objValidatorConfig) {
+    for (const validator of objValidatorConfig[prop]) {
+      switch (validator) {
+        case 'required':
+          isValid = isValid && !!obj[prop];
+          break;
+        case 'positive':
+          isValid = isValid && obj[prop] > 0;
+          break;
+      }
+    }
+  }
+  return isValid;
+}
+
+class Course {
+  @Required
+  title: string;
+  @PositiveNumber
+  price: number;
+
+  constructor(t: string, p: number) {
+    this.title = t;
+    this.price = p;
+  }
+}
+
+const courseForm = document.querySelector('form')!;
+courseForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const titleEl = document.getElementById('title') as HTMLInputElement;
+  const priceEl = document.getElementById('price') as HTMLInputElement;
+
+  const title = titleEl.value;
+  const price = +priceEl.value;
+
+  const createCourse = new Course(title, price);
+
+  if (!Validate(createCourse)) {
+    alert('Invalid input, please try again!!');
+    return;
+  }
+
+  console.log(createCourse);
+});

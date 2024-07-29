@@ -42,18 +42,4 @@ Udemy Course 'Typecript with React + NodeJS'
 
 ### Decorators
 
-1. class decorator
-   1-1.decorator factory
-   1-2. meta programing (ex. Angular)
-   1-3. multiple decorator order (bottom-up)
-2. usefull decorator
-   2-1. property decorator
-   2-2. accesor decorator
-   2-3. method decorator
-   2-4. parameter decorator
-3. decorator usecase
-   3-1. Returning and converting classes from class decorators
-   3-2. etc decorator return type
-   3-3. ex. autobind decorator
-4. decorator validation
-ex. ts class validator, Angular, nestJs
+- [Decorators](marp/11.decorators.md)
